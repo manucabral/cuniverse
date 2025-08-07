@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filters/exceptions';
+import * as morgan from 'morgan';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -12,6 +14,10 @@ async function bootstrap() {
   const version = configService.get<string>('app.version') || '?';
   const env = configService.get<string>('app.environment') || 'Unknown';
   const prefix = configService.get<string>('app.prefix');
+  const morgan_format = env === 'production' ? 'combined' : 'dev';
+  app.use(morgan(morgan_format));
+  logger.log(`Using morgan: ${morgan_format}`);
+  app.useGlobalFilters(new AllExceptionsFilter());
   await app.listen(port);
   if (prefix) {
     app.setGlobalPrefix(prefix);
