@@ -4,13 +4,13 @@ import {
   WebSocketServer,
   OnGatewayInit,
 } from '@nestjs/websockets';
-import { gatewayConfig } from './game.gateway.config';
+import { gatewayConfig } from './chat.gateway.config';
 import { Server } from 'socket.io';
 
 @WebSocketGateway(gatewayConfig)
-export class GameGateway implements OnGatewayInit {
+export class ChatGateway implements OnGatewayInit {
   @WebSocketServer() server: Server;
-  private readonly logger = new Logger(GameGateway.name);
+  private readonly logger = new Logger(ChatGateway.name);
   private createdAt: number = Date.now();
 
   afterInit(server: Server) {
