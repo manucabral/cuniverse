@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { RegisterDto } from './dto/register-auth.dto';
 import { Logger } from '@nestjs/common';
 import { UserDocument } from 'src/users/schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -20,10 +21,19 @@ export class AuthService {
       this.logger.warn(`User already exists with email: ${registerDto.email}`);
       throw new ConflictException('Name or email already exists');
     }
-    const newUser = new this.userModel(registerDto);
+    const encryptedPassword = await bcrypt.hash(registerDto.password, 10);
+    const newUser = new this.userModel({
+      ...registerDto,
+      password: encryptedPassword,
+    });
     await newUser.save();
     return {
       message: 'Registered successfully',
+      data: {
+        id: newUser._id,
+        email: newUser.email,
+        name: newUser.name,
+      },
     };
   }
 }
