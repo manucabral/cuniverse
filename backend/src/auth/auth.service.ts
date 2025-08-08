@@ -27,19 +27,19 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(registerDto: RegisterDto) {
-    this.logger.log(`Registering user with email: ${registerDto.email}`);
+  async register(payload: RegisterDto) {
+    this.logger.log(`Registering user with email: ${payload.email}`);
     const existingUser = await this.userModel.findOne({
-      $or: [{ email: registerDto.email }, { name: registerDto.name }],
+      $or: [{ email: payload.email }, { name: payload.name }],
     });
     if (existingUser) {
-      this.logger.warn(`User already exists with email: ${registerDto.email}`);
+      this.logger.warn(`User already exists with email: ${payload.email}`);
       throw new ConflictException('Name or email already exists');
     }
 
-    const encryptedPassword = await bcrypt.hash(registerDto.password, 10);
+    const encryptedPassword = await bcrypt.hash(payload.password, 10);
     const newUser = new this.userModel({
-      ...registerDto,
+      ...payload,
       password: encryptedPassword,
     });
     await newUser.save();
