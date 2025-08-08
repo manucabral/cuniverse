@@ -25,6 +25,9 @@ export class User {
 
   @Prop({ default: 0 })
   losses: number;
+
+  @Prop({ select: false, default: null })
+  refreshTokenJti?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

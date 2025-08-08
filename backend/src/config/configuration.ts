@@ -6,13 +6,17 @@ export default () => ({
     environment: process.env.NODE_ENV ?? 'development',
     prefix: process.env.API_PREFIX ?? 'api',
   },
-  // add logging and cors option
   security: {
+    bcrypt_salt: process.env.BCRYPT_SALT ?? '10',
     jwt_secret: process.env.JWT_SECRET ?? 'defaultJwtSecret',
     tokens: {
       access: {
-        expiration: process.env.ACCESS_TOKEN_EXPIRATION ?? '1d',
+        expiration: process.env.ACCESS_TOKEN_EXPIRATION ?? '30m',
         secret: process.env.ACCESS_TOKEN_SECRET ?? 'defaultAccessTokenSecret',
+      },
+      refresh: {
+        expiration: process.env.REFRESH_TOKEN_EXPIRATION ?? '7d',
+        secret: process.env.REFRESH_TOKEN_SECRET ?? 'defaultRefreshTokenSecret',
       },
     },
   },
