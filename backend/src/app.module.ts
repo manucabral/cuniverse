@@ -5,6 +5,8 @@ import { GameGateway } from './gateways/game/game.gateway';
 import { LobbyGateway } from './gateways/lobby/lobby.gateway';
 import { ChatGateway } from './gateways/chat/chat.gateway';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { DatabaseModule } from './database/database.module';
     GameGateway,
     LobbyGateway,
     ChatGateway,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
