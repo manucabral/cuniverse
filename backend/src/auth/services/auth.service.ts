@@ -6,8 +6,8 @@ import {
   Logger,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { RegisterDto } from './dto/register-auth.dto';
-import { LoginDto } from './dto/login-auth.dto';
+import { RegisterDto } from '../dto/register-auth.dto';
+import { LoginDto } from '../dto/login-auth.dto';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
 // import { SessionsService } from 'src/sessions/sessions.service';
 import { CreateSessionDto } from 'src/sessions/dto/create-session.dto';

@@ -5,7 +5,7 @@ import {
   OnGatewayInit,
 } from '@nestjs/websockets';
 import { gatewayConfig } from './game.gateway.config';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway(gatewayConfig)
 export class GameGateway implements OnGatewayInit {
@@ -16,5 +16,13 @@ export class GameGateway implements OnGatewayInit {
   afterInit(server: Server) {
     const took = Date.now() - this.createdAt;
     this.logger.log(`Initialized in ${took}ms`);
+  }
+
+  handleConnection(client: Socket) {
+    this.logger.log(`Client connected: ${client.id}`);
+  }
+
+  handleDisconnect(client: Socket) {
+    this.logger.log(`Client disconnected: ${client.id}`);
   }
 }
